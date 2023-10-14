@@ -1,0 +1,149 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{Homework}[v21]
+
+% 字体设定
+\RequirePackage{fontspec}
+\setmainfont{Minion Pro} % 将西文字体调整为 Minion Pro
+\setCJKmainfont[BoldFont=Source Han Sans CN Medium, ItalicFont=楷体]{Source Han Serif CN} % 将中文字体调整为思源宋体、思源黑体(加粗)、楷体(意大利体)
+\RequirePackage{textcomp} % 字体映射
+
+% 主题色设定
+\RequirePackage{xcolor}
+%\definecolor{Main}{RGB}{93, 172, 129} % #5DAC81, 若竹, 偏清新的绿色
+%\definecolor{Secondary}{RGB}{0, 137, 108} % #00896C, 青竹, 中调绿色
+
+\definecolor{Main}{RGB}{232,122,144} % #E87A90, 薄红, 略深的粉色
+\definecolor{Secondary}{RGB}{244,167,185} % #F4A7B9, 一斥染, 偏嫩的粉色
+
+% 特殊设定
+\normalspacedchars{*} % 这是为了保证*符号拥有正常的字词间距
+
+% 关于数学符号的设定
+\RequirePackage{mathtools, extarrows} % 数学式宏包, 更多箭头
+\RequirePackage{amsfonts, amssymb, bm, mathrsfs, dsfont} % 更多数学字体、黑板体、粗斜体、双线的1等
+\RequirePackage{amsthm} % AMS标准定理环境
+\numberwithin{equation}{section}
+\RequirePackage{cases} % cases 宏包
+\RequirePackage{physics} % physics 宏包
+
+% task 环境的设定
+\RequirePackage{tasks}
+\NewTasksEnvironment[label={(\arabic*)}, item-indent=4em, label-offset=1em]{lpbn}(2) % 设定第二级条目
+\NewTasksEnvironment[label={(\roman*)}, item-indent=6em, label-offset=1em]{alpbn}(3) % 设置第三级条目
+
+% 页面版式设定
+\RequirePackage[a4paper, hmargin=2.5cm, vmargin=2cm]{geometry} % 电子版或无装订要求的打印版边距，左右边距相等
+% \RequirePackage[twoside, a4paper, outer=1.8cm, inner=3.2cm, top=2.5cm, bottom=2cm]{geometry} % 有装订要求的打印版边距，外侧边距小而内侧边距大
+\renewcommand{\baselinestretch}{1.5} % 行距 1.5 倍
+\setlength{\headheight}{13pt}
+\RequirePackage{fancyhdr} % 页眉页脚的设定
+% \pagestyle{fancy}
+% \fancyhf{}
+% \fancyhead[OL]{\fangsong \nouppercase\leftmark}
+% \fancyhead[ER]{\fangsong \nouppercase\rightmark}
+% \fancyhead[OR,EL]{\thepage}
+% \fancyfoot[C]{}
+% 若不需要高级页眉页脚，采用以下的设定
+\pagestyle{plain}
+
+% 脚注的设定
+\setlength{\skip\footins}{2\baselineskip}
+\numberwithin{footnote}{section}
+\renewcommand{\thefootnote}{\arabic{footnote}}
+
+% 目录和索引的设定
+% \RequirePackage{tocbibind} % 若需要将目录、索引和文献加入目录，请采用这一设定
+\RequirePackage{imakeidx} % 若需要索引，请采用这一设定
+
+% 数组和表格的设定
+\RequirePackage{array} % array 环境
+\RequirePackage{diagbox, booktabs, tabularx} % 表格增强宏包
+
+% enumerate 环境的增强设定
+\RequirePackage[shortlabels]{enumitem}
+\setlist[enumerate, 1]{left=\parindent..0pt, noitemsep, itemindent=2\parindent, listparindent=\parindent, label=(\arabic*)}
+\setlist[enumerate, 2]{left=\parindent..1em, noitemsep, itemindent=2\parindent, listparindent=2\parindent, label=(\roman*)}
+
+% 交叉引用的设定
+\RequirePackage{nameref, prettyref}
+\RequirePackage[colorlinks, linkcolor=Main, citecolor=Secondary]{hyperref}
+
+% 文献引用的设定
+\RequirePackage{cite}
+
+% 有关图片和浮动体的设定
+\RequirePackage{graphicx}
+\graphicspath{{figures/}} % 图片默认位置
+\RequirePackage{caption} % 使用浮动体标题
+\RequirePackage{subfig} % 子浮动体
+\RequirePackage[final]{pdfpages} % 插入 pdf 文件作为一页或图片
+\RequirePackage{wrapfig} % 允许图片环绕
+
+% tikz 绘图的设定
+\RequirePackage{tikz} % 原始的 tikz 宏包
+\RequirePackage{tikz-cd} % 画交换图用的 tikz 宏包
+\usetikzlibrary{arrows.meta} % 加入更多箭头
+\RequirePackage{tikz-3dplot, pgfplots} % 画 3d 图像和函数图像的宏包
+
+
+% 有关计数器的设定
+\newcounter{Counter}[section] % 若只需要一个总计数器, 直接命名为 Counter 即可
+\renewcommand{\theCounter}{\thesection.\arabic{Counter}}
+% \renewcommand{theCounter}{\thesection.\arabic{Counter}} % 如需按节编号, 请采用这一设定
+\newcounter{Qu} % 若用于作业, 适用于作业题目编号
+\renewcommand{\theQu}{\arabic{Qu}}
+% \renewcommand{theQu}{\thesection.\arabic{Qu}} % 如需按节编号, 请采用这一设定
+
+% 关于定理环境的类型
+\newtheoremstyle{normal} % 普通定理环境
+    {4pt} % 环境的上间距
+    {2pt} % 环境的下间距
+    {} % 环境字体, 若默认则留空
+    {2\ccwd} % 缩进
+    {\bfseries} % 环境标题字体
+    {} % 环境标题后的标点
+    {1\ccwd} % 环境标题后的空格
+    {} % 环境标题规格, 若默认则留空
+
+\newtheoremstyle{prsol} % 证明和解答环境
+    {2pt} % 环境的上间距
+    {4pt} % 环境的下间距
+    {} % 环境字体, 若默认则留空
+    {2\ccwd} % 缩进
+    {\bfseries} % 环境标题字体
+    {} % 环境标题后的标点
+    {1\ccwd} % 环境标题后的空格
+    {} % 环境标题规格, 若默认则留空
+
+% 新定义定理环境
+\theoremstyle{normal} % 以下为普通定理环境
+    \newtheorem{Theorem}[Counter]{定理}
+    \newtheorem{Definition}[Counter]{定义}
+    \newtheorem{Proposition}[Counter]{命题}
+    \newtheorem{Lemma}[Counter]{引理}
+    \newtheorem{Corollary}[Counter]{推论}
+    \newtheorem{Example}[Counter]{例}
+    \newtheorem*{Remark}{注} % Remark 环境不带编号
+    \newtheorem{Question}[Qu]{问题}
+    \newtheorem{De-Pr}[Counter]{定义--命题} % 用于定义中带有一个命题的情形
+    \newtheorem{De-Th}[Counter]{定义--定理} % 用于定义中带有一个定理的情形
+\theoremstyle{prsol} % 以下是证明和解答环境
+    \newtheorem*{Solution}{解} % Solution 环境不带编号
+    \newtheorem*{Proof}{证明} % Proof 环境不带编号
+
+% 标题设定
+\RequirePackage{titlesec}
+\definecolor{TitleYellow}{RGB}{245, 200, 70} % 标题黄色方块颜色
+\definecolor{TitleRed}{RGB}{234, 82, 49} % 标题红色方块颜色
+\definecolor{TitleBlue}{RGB}{74, 159, 212} % 标题蓝色方块颜色
+\newcommand{\@printtitle}{
+    \begin{tikzpicture}
+        \fill[TitleYellow, rounded corners=0pt] (0,0) rectangle (0.3,0.3);
+        \fill[TitleRed, rounded corners=0pt] (0.4,0) rectangle (0.7,0.3);
+        \fill[TitleBlue, rounded corners=0pt] (0.8,0) rectangle (1.1,0.3);
+        \node[align=left, anchor=north west, inner sep=8pt, font=\Large\bfseries] at (1.5,0.6) {\@title};
+        \node[align=left, anchor=north west, inner sep=8pt, font=\bfseries] at (1.5, -0.15) {\@author, \@date};
+    \end{tikzpicture}
+}
+\def\printtitle{\@printtitle}
+\titleformat{\section}[block]{\large\bfseries}{\arabic{section}}{1em}{}[]
